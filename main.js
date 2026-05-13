@@ -51,4 +51,46 @@
         });
 
         // Enhanced dock hover effect
-        
+        const dock = document.querySelector('.dock');
+        dock.addEventListener('mousemove', function(e) {
+            const items = this.querySelectorAll('.dock-item');
+            items.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const distance = Math.sqrt(x * x + y * y);
+                const scale = Math.max(1, 1.5 - distance / 100);
+                item.style.transform = `scale(${scale}) translateY(${-distance / 10}px)`;
+            });
+        });
+
+        dock.addEventListener('mouseleave', function() {
+            this.querySelectorAll('.dock-item').forEach(item => {
+                item.style.transform = 'scale(1) translateY(0)';
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        document.querySelectorAll('.particle').forEach(p => {
+            p.style.width = p.style.height = `${Math.random() * 3 + 1}px`;
+            p.style.animationDuration = `${Math.random() * 10 + 10}s`;
+});
+VanillaTilt.init(document.querySelectorAll(".card"), {
+  max: 15,
+  speed: 400,
+  glare: true,
+  "max-glare": 0.2
+});
+
